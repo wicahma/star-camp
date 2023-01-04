@@ -1,0 +1,32 @@
+body {
+  /* background: linear-gradient(252.44deg, #CC00FF 0%, rgba(204, 0, 255, 0) 100%), linear-gradient(72.44deg, #03A9F4 0%, rgba(3, 169, 244, 0) 100%); */
+  
+  font-family: "poppins", "sans-serif";
+}
+
+.log {
+  background: #03a9f4;
+  height: min-content;
+  width: 90%;
+  box-shadow: 50px;
+  
+  border-radius: 20px;
+}
+.btnlog {
+  width: 100%;
+}
+
+.login {
+  position: fixed;
+  background: #03A9F4;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+@media screen and (min-width: 800px) {
+  .log {
+    width: 500px;
+  }
+}
