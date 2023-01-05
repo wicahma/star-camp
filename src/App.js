@@ -53,7 +53,7 @@ function App(props) {
             element={props.user ? <Order /> : <Navigate to={"/"} />}
           />
           <Route
-            path="/pesanan"
+            path="/pesanan/:type"
             exact
             element={props.user ? <Pesanan /> : <Navigate to={"/"} />}
           />

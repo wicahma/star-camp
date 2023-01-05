@@ -46,9 +46,9 @@ const TransferModal = (props) => {
         payment_status: "Menunggu verifikasi pembayaran",
       })
       .then((res) => {
-        console.log(res);
+        console.log("berhasil merubah data", res);
         setloading(false);
-        navigate("/pesanan");
+        navigate(`/pesanan/${props.user.username}`);
         clickMe.current.click();
       })
       .catch((err) => console.log(err));
@@ -58,7 +58,6 @@ const TransferModal = (props) => {
     setloading(true);
     let form = new FormData();
     form.append("file", payment.bukti_bayar.data);
-    // console.log("data berhasil dikirim", pay);
     axios
       .post(`http://localhost:5000/api/pay-detail-img`, form)
       .then((res) => {

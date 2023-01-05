@@ -5,6 +5,7 @@ export const initialState = {
   product: [],
   payment: null,
   error: false,
+  dataPesanan: null,
 };
 
 export default function mainStoreReducer(state = initialState, action) {
@@ -52,6 +53,8 @@ export default function mainStoreReducer(state = initialState, action) {
       return { ...state, error: false };
     case "SET_PAYMENT":
       return { ...state, payment: action.payload };
+    case "SET_PESANAN":
+      return { ...state, dataPesanan: action.payload };
 
     default:
       return state;

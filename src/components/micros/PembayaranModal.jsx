@@ -25,7 +25,7 @@ const PembayaranModal = (props) => {
       })
       .then((res) => {
         console.log(res);
-        setRedirect(<Navigate to={"/pesanan"} />);
+        setRedirect(<Navigate to={`/pesanan/${props.user}`} />);
       })
       .catch((err) => {
         console.log(err);
@@ -175,6 +175,7 @@ const PembayaranModal = (props) => {
 
 const mapStateToProps = (state) => ({
   payment: state.mainStore.payment,
+  user: state.mainStore.dataUser.username,
 });
 
 export default connect(mapStateToProps)(PembayaranModal);

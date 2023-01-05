@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link, Navigate, useLocation } from "react-router-dom";
@@ -12,6 +13,7 @@ const Navlist = (props) => {
     alert("Anda telah berhasil log out!");
     setOut(true);
   };
+
   return (
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       {!out ? null : <Navigate to={"/"} />}
@@ -26,20 +28,57 @@ const Navlist = (props) => {
           </Link>
         </li>
 
-        <li className={`nav-item ${
-            pathname.includes("/pesanan") ? "active-nav" : null
-          }`}>
-          <Link
-            to={"/pesanan"}
-            className="nav-link text-light"
-            href="./order.html"
+        {props.user === null ? null : props.user.role === "user" ? (
+          <li
+            className={`nav-item ${
+              pathname.includes("/pesanan") ? "active-nav" : null
+            }`}
           >
-            <b>Pesanan</b>
-          </Link>
-        </li>
-        <li className={`nav-item ${
+            <Link
+              to={`/pesanan/${props.user.username}`}
+              className="nav-link text-light"
+            >
+              <b>Pesanan</b>
+            </Link>
+          </li>
+        ) : (
+          <li class="nav-item btn-group">
+            <button
+              type="button"
+              class="nav-link text-light"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Pesanan
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <Link
+                to={"/pesanan/semua"}
+                class="dropdown-item"
+              >
+                Daftar Pesanan
+              </Link>
+              <Link
+                to={"/pesanan/bayar"}
+                class="dropdown-item"
+              >
+                Verifikasi Pembayaran
+              </Link>
+              <Link
+                to={"/pesanan/batal"}
+                class="dropdown-item"
+              >
+                Verifikasi Pembatalan
+              </Link>
+            </div>
+          </li>
+        )}
+        <li
+          className={`nav-item ${
             pathname.includes("/keranjang") ? "active-nav" : null
-          }`}>
+          }`}
+        >
           <Link to={"/keranjang"} className="nav-link text-light">
             <b> Keranjang </b>
           </Link>
@@ -78,6 +117,8 @@ const Navlist = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  user: state.mainStore.dataUser,
+});
 
 export default connect(mapStateToProps)(Navlist);

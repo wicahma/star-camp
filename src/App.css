@@ -34,30 +34,40 @@ body {
   right: 1rem;
 }
 
-.nav-item a {
+.nav-item a,
+.nav-item button {
   font-weight: 300;
 }
 
+.nav-item button {
+  background-color: transparent;
+  border: none;
+}
 .active-nav a,
 .active-nav a:hover,
-.active-nav a:focus {
+.active-nav a:focus,
+.nav-item button:hover,
+.nav-item button:focus {
   color: #fff !important;
   text-decoration: underline;
   text-underline-offset: 0.5rem;
   text-decoration-thickness: 2px;
-  letter-spacing: 0.05rem;
   transition-duration: 250ms;
 }
 
 .nav-item a:hover {
   color: #fff !important;
-  letter-spacing: 0.05rem;
   transition-duration: 250ms;
 }
 
 .form-table {
   width: 100%;
   overflow-x: auto;
+}
+
+.payment-proof {
+  width: 100%;
+  border-radius: 15px;
 }
 
 .alert {

@@ -235,7 +235,7 @@ class Order extends Component {
                         Ya
                       </button>
                       {this.state.navi !== false && (
-                        <Navigate to={"/pesanan"} />
+                        <Navigate to={`/pesanan/${this.props.user.username}`} />
                       )}
                     </div>
                   </div>

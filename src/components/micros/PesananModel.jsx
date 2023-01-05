@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import BuktiPembayaranModal from "./BuktiPembayaranModal";
 import PembatalanModal from "./PembatalanModal";
 import PembayaranModal from "./PembayaranModal";
 import TableRow from "./TableRow";
@@ -14,6 +15,7 @@ const PesananModel = (props) => {
   const [jumlah, setJumlah] = useState(0);
   const [orders, setOrders] = useState([]);
   const [product, setProduct] = useState([]);
+  const [pembayaran, setPembayaran] = useState(true);
   const data = {
     id_pesanan: location.state.id_pesanan,
     tanggal: location.state.tanggal,
@@ -40,6 +42,17 @@ const PesananModel = (props) => {
       });
   };
 
+  const checkpembayaran = () => {
+    axios
+      .get(`http://localhost:5000/api/pay-detail/order/${data.id_pesanan}`)
+      .then((res) => {
+        res.data.data.length !== 0 && setPembayaran(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const calcTotal = () => {
     let jum = 0;
     const row = table.current.children;
@@ -59,6 +72,7 @@ const PesananModel = (props) => {
     statusCheck();
     getProduct();
     getPesanan();
+    checkpembayaran();
   }, []);
 
   useEffect(() => {
@@ -114,32 +128,53 @@ const PesananModel = (props) => {
         </table>
       </div>
 
-      <div ref={detailPesanan} className="card-footer text-muted">
-        <button
-          data-toggle="modal"
-          data-target="#modal-bayar"
-          className="btn btn-light float-right ml-2"
-        >
-          Pembayaran
-        </button>
-        <button
-          data-toggle="modal"
-          data-target="#modal-batal"
-          className="btn btn-light float-right"
-        >
-          Batalkan
-        </button>
-        <PembayaranModal id_pesanan={data.id_pesanan} />
-        <PembatalanModal id_pesanan={data.id_pesanan} />
-        <TransferModal id_pesanan={data.id_pesanan} />
+      <div
+        ref={detailPesanan}
+        className="d-flex justify-content-between card-footer text-muted"
+      >
+        <div>
+          <button
+            type="button"
+            className="btn btn-warning"
+            data-toggle="modal"
+            data-target="#modal-bukti-status"
+          >
+            {props.user !== null
+              ? props.user.role === "admin"
+                ? "Lihat Bukti Pembayaran"
+                : "Cek Status Pembayaran"
+              : null}
+          </button>
+        </div>
+        <div className="flex-shrink">
+          {pembayaran && (
+            <button
+              data-toggle="modal"
+              data-target="#modal-bayar"
+              className="btn btn-light float-right ml-2"
+            >
+              Pembayaran
+            </button>
+          )}
+          <button
+            data-toggle="modal"
+            data-target="#modal-batal"
+            className="btn btn-light float-right"
+          >
+            Batalkan
+          </button>
+        </div>
       </div>
+      <PembayaranModal id_pesanan={data.id_pesanan} />
+      <PembatalanModal id_pesanan={data.id_pesanan} />
+      <TransferModal id_pesanan={data.id_pesanan} />
+      <BuktiPembayaranModal id_pesanan={data.id_pesanan} />
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   user: state.mainStore.dataUser,
-  //   product: state.mainStore.product,
 });
 
 export default connect(mapStateToProps)(PesananModel);
