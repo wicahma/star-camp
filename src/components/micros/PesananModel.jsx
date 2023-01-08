@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { BarLoader } from "react-spinners";
 import BuktiPembayaranModal from "./BuktiPembayaranModal";
 import PembatalanModal from "./PembatalanModal";
 import PembayaranModal from "./PembayaranModal";
@@ -131,7 +132,7 @@ const PesananModel = (props) => {
                   <BarLoader
                     size={150}
                     color={"#123abc"}
-                    loading={loading}
+                    loading={true}
                     speedMultiplier={1.5}
                     aria-label="Loading Spinner"
                     data-testid="loader"
