@@ -52,9 +52,9 @@ class Daftar extends Component {
         username: data.username,
         email: data.email,
         password: pass.password,
+        role: "user",
       })
       .then((resp) => {
-        // console.log(resp);
         this.setState({
           error: "User berhasil dibuat, silahkan kembali ke Login",
         });
