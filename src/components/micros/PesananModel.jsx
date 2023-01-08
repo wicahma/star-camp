@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import BuktiPembayaranModal from "./BuktiPembayaranModal";
 import PembatalanModal from "./PembatalanModal";
@@ -60,17 +60,16 @@ const PesananModel = (props) => {
   const calcTotal = () => {
     let jum = 0;
     const row = table.current.children;
-    console.log(row);
     for (const [key, value] of Object.entries(row)) {
       jum += Number(value.lastChild.lastChild.innerText.split("Rp. ")[1]);
     }
+    console.log(row);
     setJumlah(jum);
   };
 
   const calcPesanan = () => {
     let jum = 0;
     const row = table.current.children;
-    console.log(row);
     for (const [key, value] of Object.entries(row)) {
       jum += Number(value.lastChild.lastChild.id);
     }
@@ -91,8 +90,12 @@ const PesananModel = (props) => {
   }, []);
 
   useEffect(() => {
-    jumlah === 0 ? calcTotal() : console.log("Hitungan Selesai");
-    jumlahPesanan === 0 ? calcPesanan() : console.log("Hitungan Selesai");
+    setTimeout(() => {
+      jumlah === 0 ? calcTotal() : console.log("Hitungan harga Selesai");
+      jumlahPesanan === 0
+        ? calcPesanan()
+        : console.log("Hitungan pesanan Selesai");
+    }, 2000);
   }, [orders]);
 
   return (
@@ -114,7 +117,7 @@ const PesananModel = (props) => {
             {orders.length !== 0 && product.length !== 0 ? (
               orders.map((order, index) => {
                 let prod = product.find(
-                  (data) => data.id_product == order.id_product
+                  (data) => data.id_product === order.id_product
                 );
                 return (
                   <TableRow
@@ -143,11 +146,46 @@ const PesananModel = (props) => {
           </div>
           <div className="d-flex justify-content-between">
             <h5>Total biaya</h5>
-            <h5>Rp. {jumlah}</h5>
+            <h5>
+              Rp.{" "}
+              {jumlah === 0 ? (
+                <div className="loading">
+                  <div className="loader">
+                    <BarLoader
+                      size={150}
+                      color={"#123abc"}
+                      loading={true}
+                      speedMultiplier={1.5}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
+              ) : (
+                jumlah
+              )}
+            </h5>
           </div>
           <div className="d-flex justify-content-between">
             <h5>Total pesanan</h5>
-            <h5>{jumlahPesanan}</h5>
+            <h5>
+              {jumlahPesanan === 0 ? (
+                <div className="loading">
+                  <div className="loader">
+                    <BarLoader
+                      size={150}
+                      color={"#123abc"}
+                      loading={true}
+                      speedMultiplier={1.5}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
+              ) : (
+                jumlahPesanan
+              )}
+            </h5>
           </div>
         </div>
 

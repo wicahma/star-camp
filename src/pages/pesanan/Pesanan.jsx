@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NoProduct from "../../components/micros/NoProduct";
 import PesananDetail from "../../components/micros/PesananDetail";
 
