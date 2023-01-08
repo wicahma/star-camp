@@ -93,7 +93,7 @@ const PesananModel = (props) => {
   useEffect(() => {
     jumlah === 0 ? calcTotal() : console.log("Hitungan Selesai");
     jumlahPesanan === 0 ? calcPesanan() : console.log("Hitungan Selesai");
-  }, [product]);
+  }, [orders]);
 
   return (
     <div className="container-sm mt-5">
