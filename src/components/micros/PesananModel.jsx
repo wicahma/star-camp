@@ -110,8 +110,7 @@ const PesananModel = (props) => {
           <h6 className="text-dark p-2">{props.user.phone}</h6>
 
           <div ref={table} className="px-2">
-            {orders.length !== 0 &&
-              product.length !== 0 &&
+            {orders.length !== 0 && product.length !== 0 ? (
               orders.map((order, index) => {
                 let prod = product.find(
                   (data) => data.id_product == order.id_product
@@ -125,7 +124,21 @@ const PesananModel = (props) => {
                     price={prod.price}
                   />
                 );
-              })}
+              })
+            ) : (
+              <div className="loading">
+                <div className="loader">
+                  <BarLoader
+                    size={150}
+                    color={"#123abc"}
+                    loading={loading}
+                    speedMultiplier={1.5}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </div>
+              </div>
+            )}
           </div>
           <div className="d-flex justify-content-between">
             <h5>Total biaya</h5>

@@ -11,15 +11,6 @@ const PesananDetail = (props) => {
             <b>{props.nama}</b>
           </h6>
           <h6 className="text-dark font-weight-light">
-            <b>Rp. {props.hargaTotal}</b>
-          </h6>
-          <h6 className="text-dark font-weight-light">
-            <b>{props.tanggal}</b>
-          </h6>
-          <h6 className="text-dark font-weight-light">
-            <b>{props.id}</b>
-          </h6>
-          <h6 className="text-dark font-weight-light">
             <b>{props.status}</b>
           </h6>
         </div>
