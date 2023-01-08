@@ -4,13 +4,8 @@ import KeranjangDetail from "../micros/KeranjangDetail";
 
 const CardKeranjang = (props) => {
   return (
-    <div className="card order2">
-      <div className="card-header">
-        <h5 className="text-light">
-          <b>DETAIL PESANAN</b>
-        </h5>
-      </div>
-      <div className="card-body row flex-wrap">
+    <div className="">
+      <div className="card-body row flex-wrap gap-2">
         {props.dataKeranjang.map((product, index) => {
           return (
             <KeranjangDetail
@@ -24,10 +19,9 @@ const CardKeranjang = (props) => {
         })}
       </div>
 
-      <div className="card-footer text-muted">
-        <Link to="/keranjang/pesan" className="btn btn-light">
-          {" "}
-          Detail
+      <div className="d-flex justify-content-end">
+        <Link to="/keranjang/pesan" className="btn btn-detail-keranjang">
+          Checkout
         </Link>
       </div>
     </div>

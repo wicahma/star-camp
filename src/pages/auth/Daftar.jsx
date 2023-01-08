@@ -48,7 +48,7 @@ class Daftar extends Component {
 
   handleRegister = (data, pass) => {
     axios
-      .post("http://localhost:5000/api/user", {
+      .post(`${process.env.REACT_APP_API_POINT}user`, {
         username: data.username,
         email: data.email,
         password: pass.password,

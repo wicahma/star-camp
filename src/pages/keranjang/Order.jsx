@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import Alert from "../../components/micros/Alert";
 import TableOrder from "../../components/tables/TableOrder";
 
 class Order extends Component {
@@ -16,6 +17,8 @@ class Order extends Component {
       },
       respStatus: "",
       navi: false,
+      error: false,
+      success: false,
     };
     this.clickMe = React.createRef();
   }
@@ -30,16 +33,29 @@ class Order extends Component {
     });
   };
 
+  checker = () => {
+    let nothing = false;
+    for (const [key, value] of Object.entries(this.state.data)) {
+      if (value === "" || value === undefined || value === null) nothing = true;
+    }
+    return nothing;
+  };
+
   handleSendOrder = (order) => {
-    // console.log(order);
+    if (this.checker() === true) {
+      this.setState({ error: true });
+      return setTimeout(() => this.setState({ error: false }), 1500);
+    }
     axios
-      .put(`http://localhost:5000/api/user/${this.props.user.id_user}`, {
-        full_name: this.state.data.full_name,
-        phone: this.state.data.phone,
-        address: this.state.data.address,
-      })
+      .put(
+        `${process.env.REACT_APP_API_POINT}user/${this.props.user.id_user}`,
+        {
+          full_name: this.state.data.full_name,
+          phone: this.state.data.phone,
+          address: this.state.data.address,
+        }
+      )
       .then((res) => {
-        // console.log(res);
         this.setState({
           respStatus: "Data berhasil dirubah, silakan lakukan login ulang!",
         });
@@ -50,7 +66,7 @@ class Order extends Component {
       });
 
     axios
-      .post("http://localhost:5000/api/order", {
+      .post(`${process.env.REACT_APP_API_POINT}order`, {
         id_user: parseInt(this.props.user.id_user),
         time: String(this.state.data.time),
         order_status: "Pesanan berhasil dibuat",
@@ -60,7 +76,7 @@ class Order extends Component {
         console.log("data order berhasil diupload ke database");
         order.map((data) => {
           axios
-            .post("http://localhost:5000/api/order-detail", {
+            .post(`${process.env.REACT_APP_API_POINT}order-detail`, {
               id_order: res.data.data.insertId,
               id_product: data.id_product,
               jumlah: parseInt(data.pesanan),
@@ -79,168 +95,114 @@ class Order extends Component {
       })
       .catch((err) => {
         console.log("eh order gagal diupload ke database :)");
-        // console.log(err);
       });
   };
 
   render() {
     return (
-      <div className="container">
-        <div className="container-sm">
-          <div className="card pesanan">
-            <div className="card-header">
-              <h5 className="text-light">
-                <b>ISI DATA PESANAN</b>
-              </h5>
-            </div>
-            <div className="card-body">
-              <form>
-                <div className="form-group">
-                  <label
-                    htmlFor="nama"
-                    className="text-light col-sm-3 col-form-label"
-                  >
-                    <b className="text-light">Nama Lengkap</b>
-                  </label>
-                  <div className="col-sm-6">
-                    <input
-                      type="text"
-                      onChange={(e) => this.handleOnChange(e)}
-                      id="full_name"
-                      name="nama"
-                      className="form-control"
-                      defaultValue={this.props.user.full_name}
-                      placeholder="Masukkan Nama"
-                    />
-                  </div>
+      <div className="container mx-auto mt-4 row">
+        <div className="col-md-4 col-sm-12">
+          <div className="order2 card-body px-0 pt-4 pb-1">
+            <h5 className="text-dark text-center">
+              <b>ISI DATA PESANAN</b>
+            </h5>
+            {this.state.error === true && (
+              <Alert alert="Ada data yang masih kosong!" type="alert-danger" />
+            )}
+            <form>
+              <div className="form-group">
+                <label
+                  htmlFor="nama"
+                  className="text-dark col-sm-12 col-form-label"
+                >
+                  <b className="text-dark">Nama Lengkap</b>
+                </label>
+                <div className="col-sm-12">
+                  <input
+                    type="text"
+                    onChange={(e) => this.handleOnChange(e)}
+                    id="full_name"
+                    name="nama"
+                    className="form-control"
+                    defaultValue={this.props.user.full_name}
+                    placeholder="Masukkan Nama"
+                  />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="alamat" className="col-sm-3 col-form-label">
-                    <b className="text-light">Alamat</b>
-                  </label>
+              </div>
+              <div className="form-group">
+                <label htmlFor="alamat" className="col-sm-12 col-form-label">
+                  <b className="text-dark">Alamat</b>
+                </label>
 
-                  <div className="col-sm-6">
-                    <textarea
-                      className="form-control"
-                      onChange={(e) => this.handleOnChange(e)}
-                      id="address"
-                      defaultValue={this.props.user.address}
-                      rows="2"
-                      placeholder="Masukkan Alamat"
-                    ></textarea>
-                  </div>
+                <div className="col-sm-12">
+                  <textarea
+                    className="form-control"
+                    onChange={(e) => this.handleOnChange(e)}
+                    id="address"
+                    defaultValue={this.props.user.address}
+                    rows="6"
+                    placeholder="Masukkan Alamat"
+                  ></textarea>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="No Hp" className="col-sm-3 col-form-label">
-                    <b className="text-light">No Hp</b>
-                  </label>
-                  <div className="col-sm-6">
-                    <input
-                      type="string"
-                      onChange={(e) => this.handleOnChange(e)}
-                      id="phone"
-                      name="No Hp"
-                      className="form-control"
-                      defaultValue={this.props.user.phone}
-                      placeholder="Masukkan No Handphone"
-                    />
-                  </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="No Hp" className="col-sm-12 col-form-label">
+                  <b className="text-dark">No Hp</b>
+                </label>
+                <div className="col-sm-12">
+                  <input
+                    type="string"
+                    onChange={(e) => this.handleOnChange(e)}
+                    id="phone"
+                    name="No Hp"
+                    className="form-control"
+                    defaultValue={this.props.user.phone}
+                    placeholder="Masukkan No Handphone"
+                  />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="time" className="col-sm-3 col-form-label">
-                    <b className="text-light">Tanggal Sewa</b>
-                  </label>
-                  <div className="col-sm-6">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <div className="input-group-text">
-                          <i className="bi bi-calendar" aria-hidden="true"></i>
-                        </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="time" className="col-sm-12 col-form-label">
+                  <b className="text-dark">Tanggal Sewa</b>
+                </label>
+                <div className="col-sm-12">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">
+                        <i className="bi bi-calendar" aria-hidden="true"></i>
                       </div>
-                      <input
-                        type="date"
-                        onChange={(e) => this.handleOnChange(e)}
-                        className="form-control"
-                        id="time"
-                        placeholder="Pilih Tanggal Sewa"
-                      />
                     </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div className="container-sm">
-          <div className="card pesanann">
-            <div className="card-header">
-              <h5 className="text-light">
-                <b>DETAIL PESANAN</b>
-              </h5>
-            </div>
-
-            <div className="card-body">
-              <TableOrder keranjang={this.props.keranjang} />
-            </div>
-            <div className="card-footer text-muted">
-              <button
-                type="button"
-                className="btn btn"
-                data-toggle="modal"
-                data-target="#exampleModal"
-              >
-                Buat Pesanan
-              </button>
-
-              <div
-                className="modal fade"
-                id="exampleModal"
-                tabIndex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="exampleModalLabel">
-                        Modal title
-                      </h5>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body text-center">
-                      <h5>Yakin Ingin Membuat Pesanan</h5>
-                    </div>
-                    <div className="modal-footer justify-content-center">
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        data-dismiss="modal"
-                        ref={this.clickMe}
-                      >
-                        Tidak
-                      </button>
-                      <button
-                        onClick={() =>
-                          this.handleSendOrder(this.props.keranjang)
-                        }
-                        className="btn btn-primary"
-                      >
-                        Ya
-                      </button>
-                      {this.state.navi !== false && (
-                        <Navigate to={`/pesanan/${this.props.user.username}`} />
-                      )}
-                    </div>
+                    <input
+                      type="date"
+                      onChange={(e) => this.handleOnChange(e)}
+                      className="form-control"
+                      id="time"
+                      placeholder="Pilih Tanggal Sewa"
+                    />
                   </div>
                 </div>
               </div>
+            </form>
+          </div>
+        </div>
+        {this.state.navi === true && (
+          <Navigate to={`/pesanan/${this.props.user.username}`} />
+        )}
+        <div className="col-md-8 col-sm-12">
+          <div className="order2 card-body">
+            <h5 className="text-dark text-center">
+              <b>DETAIL PESANAN</b>
+            </h5>
+
+            <TableOrder keranjang={this.props.keranjang} />
+            <div className="d-flex justify-content-end">
+              <button
+                type="button"
+                className="btn btn-blue"
+                onClick={() => this.handleSendOrder(this.props.keranjang)}
+              >
+                Buat Pesanan
+              </button>
             </div>
           </div>
         </div>

@@ -13,6 +13,7 @@ const PesananModel = (props) => {
   const location = useLocation();
   const table = useRef();
   const [jumlah, setJumlah] = useState(0);
+  const [jumlahPesanan, setJumlahPesanan] = useState(0);
   const [orders, setOrders] = useState([]);
   const [product, setProduct] = useState([]);
   const [pembayaran, setPembayaran] = useState(true);
@@ -24,7 +25,7 @@ const PesananModel = (props) => {
 
   const getPesanan = () => {
     axios
-      .get(`http://localhost:5000/api/order-detail/${data.id_pesanan}`)
+      .get(`${process.env.REACT_APP_API_POINT}order-detail/${data.id_pesanan}`)
       .then((res) => {
         setOrders(res.data.data);
       })
@@ -33,7 +34,7 @@ const PesananModel = (props) => {
 
   const getProduct = () => {
     axios
-      .get("http://localhost:5000/api/products")
+      .get(`${process.env.REACT_APP_API_POINT}products`)
       .then((res) => {
         setProduct(res.data.data);
       })
@@ -44,7 +45,9 @@ const PesananModel = (props) => {
 
   const checkpembayaran = () => {
     axios
-      .get(`http://localhost:5000/api/pay-detail/order/${data.id_pesanan}`)
+      .get(
+        `${process.env.REACT_APP_API_POINT}pay-detail/order/${data.id_pesanan}`
+      )
       .then((res) => {
         res.data.data.length !== 0 && setPembayaran(false);
       })
@@ -56,10 +59,21 @@ const PesananModel = (props) => {
   const calcTotal = () => {
     let jum = 0;
     const row = table.current.children;
+    console.log(row);
     for (const [key, value] of Object.entries(row)) {
-      jum += Number(value.lastChild.innerText.split("Rp. ")[1]);
+      jum += Number(value.lastChild.lastChild.innerText.split("Rp. ")[1]);
     }
     setJumlah(jum);
+  };
+
+  const calcPesanan = () => {
+    let jum = 0;
+    const row = table.current.children;
+    console.log(row);
+    for (const [key, value] of Object.entries(row)) {
+      jum += Number(value.lastChild.lastChild.id);
+    }
+    setJumlahPesanan(jum);
   };
 
   const statusCheck = () => {
@@ -77,98 +91,96 @@ const PesananModel = (props) => {
 
   useEffect(() => {
     jumlah === 0 ? calcTotal() : console.log("Hitungan Selesai");
+    jumlahPesanan === 0 ? calcPesanan() : console.log("Hitungan Selesai");
   }, [product]);
 
   return (
-    <div className="card order2">
-      <div className="card-header">
-        <h5 className="text-light">
-          <b>DETAIL PESANAN</b>
-        </h5>
-      </div>
-      <div className="card-body">
-        <h6 className="text-light float-right">Tanggal Sewa</h6>
-        <h6 className="text-light p-2">{props.user.full_name}</h6>
-        <h6 className="text-light float-right">{data.tanggal}</h6>
-        <h6 className="text-light p-2">{props.user.address}</h6>
-        <h6 className="text-light p-2">{props.user.phone}</h6>
-        <table className="table table-bordered text-light">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Detail Pesanan</th>
-              <th>Harga</th>
-              <th>Jumlah</th>
-              <th>Sub Total</th>
-            </tr>
-          </thead>
-          <tbody ref={table}>
-            {orders.map((order, index) => {
-              let prod = product.find(
-                (data) => data.id_product == order.id_product
-              );
-              return (
-                <TableRow
-                  key={order.id_order_detail}
-                  index={index + 1}
-                  many={order.jumlah}
-                  nama={prod.product_name}
-                  price={prod.price}
-                />
-              );
-            })}
-          </tbody>
-          <tfoot>
-            <tr className="table table-active table-borderless text-light">
-              <td>Total</td>
-              <td>Jumlah Pesanan</td>
-              <td>Rp. {jumlah}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-
-      <div
-        ref={detailPesanan}
-        className="d-flex justify-content-between card-footer text-muted"
-      >
-        <div>
-          <button
-            type="button"
-            className="btn btn-warning"
-            data-toggle="modal"
-            data-target="#modal-bukti-status"
-          >
-            {props.user !== null
-              ? props.user.role === "admin"
-                ? "Lihat Bukti Pembayaran"
-                : "Cek Status Pembayaran"
-              : null}
-          </button>
+    <div className="container-sm mt-5">
+      <div className="order2">
+        <div className="text-center pt-2">
+          <h5 className="text-dark">
+            <b>DETAIL PESANAN</b>
+          </h5>
         </div>
-        <div className="flex-shrink">
-          {pembayaran && (
+        <div className="card-body">
+          <h6 className="text-dark float-right">Tanggal Sewa</h6>
+          <h6 className="text-dark p-2">{props.user.full_name}</h6>
+          <h6 className="text-dark float-right">{data.tanggal}</h6>
+          <h6 className="text-dark p-2">{props.user.address}</h6>
+          <h6 className="text-dark p-2">{props.user.phone}</h6>
+
+          <div ref={table} className="px-2">
+            {orders.length !== 0 &&
+              product.length !== 0 &&
+              orders.map((order, index) => {
+                let prod = product.find(
+                  (data) => data.id_product == order.id_product
+                );
+                return (
+                  <TableRow
+                    key={order.id_order_detail}
+                    index={index + 1}
+                    many={order.jumlah}
+                    nama={prod.product_name}
+                    price={prod.price}
+                  />
+                );
+              })}
+          </div>
+          <div className="d-flex justify-content-between">
+            <h5>Total biaya</h5>
+            <h5>Rp. {jumlah}</h5>
+          </div>
+          <div className="d-flex justify-content-between">
+            <h5>Total pesanan</h5>
+            <h5>{jumlahPesanan}</h5>
+          </div>
+        </div>
+
+        <div
+          ref={detailPesanan}
+          className="d-flex justify-content-between card-footer text-muted"
+        >
+          <div>
+            {!pembayaran && (
+              <button
+                type="button"
+                className="btn btn-warning"
+                data-toggle="modal"
+                data-target="#modal-bukti-status"
+              >
+                {props.user !== null
+                  ? props.user.role === "admin"
+                    ? "Lihat Bukti"
+                    : "Cek Status"
+                  : null}
+              </button>
+            )}
+          </div>
+          <div className="flex-shrink">
+            {pembayaran && (
+              <button
+                data-toggle="modal"
+                data-target="#modal-bayar"
+                className="btn btn-blue float-right ml-2"
+              >
+                Pembayaran
+              </button>
+            )}
             <button
               data-toggle="modal"
-              data-target="#modal-bayar"
-              className="btn btn-light float-right ml-2"
+              data-target="#modal-batal"
+              className="btn btn-danger float-right"
             >
-              Pembayaran
+              Batalkan
             </button>
-          )}
-          <button
-            data-toggle="modal"
-            data-target="#modal-batal"
-            className="btn btn-light float-right"
-          >
-            Batalkan
-          </button>
+          </div>
         </div>
+        <PembayaranModal id_pesanan={data.id_pesanan} />
+        <PembatalanModal id_pesanan={data.id_pesanan} />
+        <TransferModal id_pesanan={data.id_pesanan} />
+        <BuktiPembayaranModal id_pesanan={data.id_pesanan} />
       </div>
-      <PembayaranModal id_pesanan={data.id_pesanan} />
-      <PembatalanModal id_pesanan={data.id_pesanan} />
-      <TransferModal id_pesanan={data.id_pesanan} />
-      <BuktiPembayaranModal id_pesanan={data.id_pesanan} />
     </div>
   );
 };

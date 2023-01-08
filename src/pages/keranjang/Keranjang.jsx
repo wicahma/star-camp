@@ -6,8 +6,10 @@ import NoProduct from "../../components/micros/NoProduct";
 class Keranjang extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      keranjang: JSON.parse(localStorage.getItem("produk")),
+    };
   }
-
   render() {
     console.log(this.props.keranjang);
     if (this.props.keranjang.length === 0) {
@@ -18,7 +20,7 @@ class Keranjang extends Component {
       );
     }
     return (
-      <div className="container">
+      <div className="container list-keranjang">
         <CardKeranjang dataKeranjang={this.props.keranjang} />
       </div>
     );

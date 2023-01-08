@@ -2,13 +2,17 @@ import React from "react";
 
 const TableRow = (props) => {
   return (
-    <tr id="produk">
-      <td>{props.index+1}</td>
-      <td>{props.nama}</td>
-      <td>Rp. {props.price}</td>
-      <td>{props.many}</td>
-      <td>Rp. {props.price * props.many}</td>
-    </tr>
+    <div className="row list-pesanan" id="produk">
+      <div className="col-sm-6">{props.nama}</div>
+      <div className="col-sm-6 row">
+        <div className="col-6">
+          Rp. {props.price} x {props.many}
+        </div>
+        <div className="col-6" id={props.many}>
+          Rp. {props.price * props.many}
+        </div>
+      </div>
+    </div>
   );
 };
 

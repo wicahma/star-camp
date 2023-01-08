@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
+import Alert from "./Alert";
 
 const TransferModal = (props) => {
   const [payment, setPayment] = useState({
@@ -13,11 +14,16 @@ const TransferModal = (props) => {
   });
   const [loading, setloading] = useState(false);
   const [checker, setChecker] = useState(false);
+  const [success, setSuccess] = useState(false);
   const clickMe = useRef();
   const navigate = useNavigate();
 
+  const makeAlert = (data) => {
+    data(true);
+    setTimeout(() => data(false), 1500);
+  };
+
   const handleOnChange = (e) => {
-    setChecker(false);
     const value = e.target.value;
     const id = e.target.id;
     const paymentNew = { ...payment };
@@ -33,20 +39,16 @@ const TransferModal = (props) => {
     setPayment(paymentNew);
   };
 
-  // useEffect(() => {
-  //   console.log(payment);
-  //   console.log(props);
-  // }, [payment]);
-
   const handleSendPayment = (id) => {
     axios
-      .post("http://localhost:5000/api/pay", {
+      .post(`${process.env.REACT_APP_API_POINT}pay`, {
         id_user: props.user.id_user,
         id_payment_detail: id,
         payment_status: "Menunggu verifikasi pembayaran",
       })
       .then((res) => {
         console.log("berhasil merubah data", res);
+        makeAlert(setSuccess);
         setloading(false);
         navigate(`/pesanan/${props.user.username}`);
         clickMe.current.click();
@@ -59,12 +61,10 @@ const TransferModal = (props) => {
     let form = new FormData();
     form.append("file", payment.bukti_bayar.data);
     axios
-      .post(`http://localhost:5000/api/pay-detail-img`, form)
+      .post(`${process.env.REACT_APP_API_POINT}pay-detail-img`, form)
       .then((res) => {
-        // console.log(props.payment);
-        // console.log(res);
         axios
-          .post("http://localhost:5000/api/pay-detail", {
+          .post(`${process.env.REACT_APP_API_POINT}pay-detail`, {
             id_order: props.id_pesanan,
             bank_name: pay.bank_name,
             rek_name: pay.rek_name,
@@ -85,11 +85,11 @@ const TransferModal = (props) => {
   const handleCheck = (data) => {
     for (const [key, value] of Object.entries(data)) {
       if (value === "") {
-        return setChecker(true);
+        return makeAlert(setChecker);
       }
       setChecker(false);
     }
-    if (data.bukti_bayar === "") return setChecker(true);
+    if (data.bukti_bayar === "") return makeAlert(setChecker);
     return handleSendAPI(data);
   };
 
@@ -116,7 +116,7 @@ const TransferModal = (props) => {
         </div>
       ) : null}
       {/* {redirect}     */}
-      <div className="modal-dialog ">
+      <div className="modal-dialog modal-dialog-centered ">
         <div className="modal-content modal-batal">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
@@ -133,73 +133,73 @@ const TransferModal = (props) => {
             </button>
           </div>
           <div className="modal-body">
-            <div className="card-body text-dark">
-              <input
-                list="banks"
-                name="bank"
-                id="bank_name"
-                onChange={(e) => handleOnChange(e)}
-                className="m-3"
-                placeholder="Pilih Bank"
-              />
-              <datalist id="banks">
-                <option value="Bank Mandiri">Bank Mandiri</option>
-                <option value="BCA">Bank BCA</option>
-                <option value="BNI">Bank BNI</option>
-                <option value="BRI">Bank BRI</option>
-                <option value="BTN">Bank BTN</option>
-                <option value="BSI">Bank BSI</option>
-              </datalist>
-              <form>
-                <div className="form-group">
-                  <label
-                    for="nama"
-                    className="col-sm-3 text-dark col-form-label"
-                  >
-                    <b className="text-dark">Nama</b>
-                  </label>
-                  <div className="col-sm-6">
+            <input
+              list="banks"
+              name="bank"
+              id="bank_name"
+              onChange={(e) => handleOnChange(e)}
+              className="m-3"
+              placeholder="Pilih Bank"
+            />
+            <datalist id="banks">
+              <option value="Bank Mandiri">Bank Mandiri</option>
+              <option value="BCA">Bank BCA</option>
+              <option value="BNI">Bank BNI</option>
+              <option value="BRI">Bank BRI</option>
+              <option value="BTN">Bank BTN</option>
+              <option value="BSI">Bank BSI</option>
+            </datalist>
+            <form>
+              <div className="form-group">
+                <label for="nama" className="col-sm-3 text-dark col-form-label">
+                  <b className="text-dark">Nama</b>
+                </label>
+                <div className="col-sm-6">
+                  <input
+                    type="text"
+                    id="rek_name"
+                    onChange={(e) => handleOnChange(e)}
+                    name="nama"
+                    className="form-control"
+                    placeholder="Masukkan Nama"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label for="tts" className="col-sm-3 col-form-label">
+                  <b className="text-dark">Tanggal Transfer</b>
+                </label>
+                <div className="col-sm-6">
+                  <div className="input-group">
                     <input
-                      type="text"
-                      id="rek_name"
-                      onChange={(e) => handleOnChange(e)}
-                      name="nama"
+                      type="date"
                       className="form-control"
-                      placeholder="Masukkan Nama"
+                      onChange={(e) => handleOnChange(e)}
+                      id="date"
+                      placeholder="Pilih Tanggal Sewa"
                     />
                   </div>
                 </div>
-
-                <div className="form-group">
-                  <label for="tts" className="col-sm-3 col-form-label">
-                    <b className="text-dark">Tanggal Transfer</b>
-                  </label>
-                  <div className="col-sm-6">
-                    <div className="input-group">
-                      <input
-                        type="date"
-                        className="form-control"
-                        onChange={(e) => handleOnChange(e)}
-                        id="date"
-                        placeholder="Pilih Tanggal Sewa"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group text-dark">
-                  <label for="bukti_bayar">
-                    <b className="m-3">Upload Bukti Pembayaran</b>
-                  </label>
-                  <input
-                    type="file"
-                    onChange={(e) => handleOnChange(e)}
-                    className="form-control-file m-3"
-                    id="bukti_bayar"
-                  />
-                </div>
-              </form>
-              <div>{checker ? <p>Isi data yang masih kosong</p> : null}</div>
-            </div>
+              </div>
+              <div className="form-group text-dark">
+                <label for="bukti_bayar">
+                  <b className="m-3">Upload Bukti Pembayaran</b>
+                </label>
+                <input
+                  type="file"
+                  onChange={(e) => handleOnChange(e)}
+                  className="form-control-file m-3"
+                  id="bukti_bayar"
+                />
+              </div>
+            </form>
+            {checker ? (
+              <Alert alert="Isi data yang masih kosong!" type="alert-danger" />
+            ) : null}
+            {success ? (
+              <Alert alert="Pembayaran berhasil dibuat!" type="alert-success" />
+            ) : null}
           </div>
 
           <div className="modal-footer">

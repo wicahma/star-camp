@@ -20,7 +20,7 @@ const PembayaranModal = (props) => {
 
   const fetchPayment = () => {
     axios
-      .put(`http://localhost:5000/api/order/${props.id_pesanan}`, {
+      .put(`${process.env.REACT_APP_API_POINT}order/${props.id_pesanan}`, {
         order_status: "Menunggu pembayaran",
       })
       .then((res) => {
@@ -60,7 +60,7 @@ const PembayaranModal = (props) => {
       aria-hidden="true"
     >
       {redirect}
-      <div className="modal-dialog ">
+      <div className="modal-dialog modal-dialog-centered ">
         <div className="modal-content modal-batal">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">

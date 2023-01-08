@@ -13,7 +13,7 @@ class Home extends Component {
 
   handleGetProduct = () => {
     axios
-      .get("http://localhost:5000/api/products")
+      .get(`${process.env.REACT_APP_API_POINT}products`)
       .then((res) => {
         this.setState({
           products: res.data.data,
@@ -25,7 +25,6 @@ class Home extends Component {
   };
   componentDidMount() {
     this.handleGetProduct();
-    // this.props.dispatch({ type: "GET_PRODUCT" });
   }
 
   render() {

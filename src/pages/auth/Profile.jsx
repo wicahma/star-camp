@@ -31,13 +31,16 @@ class Profile extends Component {
   handleUpdate = (users) => {
     // console.log(users);
     axios
-      .put(`http://localhost:5000/api/user/${this.props.user.id_user}`, {
-        username: users.username,
-        email: users.email,
-        phone: parseInt(users.phone),
-        full_name: users.full_name,
-        address: users.address,
-      })
+      .put(
+        `${process.env.REACT_APP_API_POINT}user/${this.props.user.id_user}`,
+        {
+          username: users.username,
+          email: users.email,
+          phone: parseInt(users.phone),
+          full_name: users.full_name,
+          address: users.address,
+        }
+      )
       .then((res) => {
         // console.log(res);
         this.setState({

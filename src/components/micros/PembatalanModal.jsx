@@ -16,7 +16,7 @@ const PembatalanModal = (props) => {
     console.log(props.user.role);
     clickMe.current.click();
     axios
-      .put(`http://localhost:5000/api/order/${props.id_pesanan}`, {
+      .put(`${process.env.REACT_APP_API_POINT}order/${props.id_pesanan}`, {
         order_status: orderStat,
       })
       .then((res) => {
@@ -53,7 +53,7 @@ const PembatalanModal = (props) => {
       {redirect}
       {props.user === null || props.user === undefined ? null : props.user
           .role === "admin" ? (
-        <div className="modal-dialog ">
+        <div className="modal-dialog modal-dialog-centered ">
           <div className="modal-content modal-batal">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
@@ -92,7 +92,7 @@ const PembatalanModal = (props) => {
           </div>
         </div>
       ) : (
-        <div className="modal-dialog ">
+        <div className="modal-dialog modal-dialog-centered ">
           <div className="modal-content modal-batal">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">

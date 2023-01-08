@@ -8,11 +8,11 @@ export class About extends Component {
   render() {
     return (
       <>
-        <section className="jumbotron warna-bg">
+        <section className="jumbotron bg-about">
           <div className="row d-flex justify-content-center align-items-center w-100 h-100">
             <div className="col-sm-12 py-5">
               <h2 className="display-4 Judul text-center pt-5 text-light">
-                Star Adventure
+                Star Camp
               </h2>
               <p className="lead text-center text-light">
                 Rental / Sewa Alat Camping Murah Jogja
@@ -20,16 +20,16 @@ export class About extends Component {
             </div>
           </div>
         </section>
-        <section id="about">
+        <section id="about" className="desc">
           <div className="container">
             <div className="section">
               <h2 className="text-center">
                 Star <span>Camp</span>
               </h2>
 
-              <div className="accordion-button d-flex flex-nowrap">
-                <div className="accordion-item justify-content-center">
-                  <h6 className="align-content-around p-5">
+              <div className="accordion-button row">
+                <div className="accordion-item col-sm-8">
+                  <h6 className="align-content-around py-5">
                     STAR CAMP Adalah aplikasi penyewaan alat camping secara
                     online bagi pengguna agar bisa melakukan penyewaan alat
                     camping dengan mudah dari rumah, tidak perlu takut kehabisan
@@ -50,59 +50,47 @@ export class About extends Component {
 
           <div className="row card-pesan justify-content-center py-5">
             <div className="col-md-2 col-sm-6">
-              <div className="card">
+              <div className="card-about">
                 <div className="p-4 kartu">
                   <img
                     className="card-img-top p-3"
                     src={habib}
                     alt="Card image cap"
                   />
-                  <font size="1">
-                    <b> Habib Aditya Julianto </b>
-                  </font>
-                  <br />
-                  <font size="1">
-                    <b> 2000016047 </b>
-                  </font>
-                  <br />
+                  <div>
+                    <h5 className="text-center">Habib Aditya Julianto </h5>
+                    <p className="text-center">2000016047</p>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="col-md-2 col-sm-6">
-              <div className="card">
+              <div className="card-about">
                 <div className="p-4 kartu">
                   <img
                     className="card-img-top p-3"
                     src={syawal}
                     alt="Card image cap"
                   />
-                  <font size="1">
-                    <b>Syawal Saputra</b>
-                  </font>
-                  <br />
-                  <font size="1">
-                    <b>2011016065</b>
-                  </font>
-                  <br />
+                  <div>
+                    <h5 className="text-center">Syawal Saputra</h5>
+                    <p className="text-center">2011016065</p>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="col-md-2 col-sm-6">
-              <div className="card">
+              <div className="card-about">
                 <div className="p-4 kartu">
                   <img
                     className="card-img-top p-3"
                     src={nizar}
                     alt="Card image cap"
                   />
-                  <font size="1">
-                    <b>Muh. Nizar</b>
-                  </font>
-                  <br />
-                  <font size="1">
-                    <b>2000016111</b>
-                  </font>
-                  <br />
+                  <div>
+                    <h5 className="text-center">Muh. Nizar</h5>
+                    <p className="text-center">2011016111</p>
+                  </div>
                 </div>
               </div>
             </div>

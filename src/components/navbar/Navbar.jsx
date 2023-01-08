@@ -2,6 +2,9 @@ import React from "react";
 import logo from "../../assets/img/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import Navlist from "../micros/Navlist";
+import AdminModal from "../micros/AdminModal";
+import { connect } from "react-redux";
+import TambahProductModal from "../micros/TambahProductModal";
 
 const Navbar = (props) => {
   let location = useLocation();
@@ -20,11 +23,7 @@ const Navbar = (props) => {
 
             <li className="nav-item">
               <form className="form-inline my-2 my-lg-0">
-                <Link
-                  to={"/login"}
-                  className="btn btn-light"
-                  role="button"
-                >
+                <Link to={"/login"} className="btn btn-light" role="button">
                   Login
                 </Link>
               </form>
@@ -63,8 +62,17 @@ const Navbar = (props) => {
           {handleLocation(location)}
         </nav>
       </div>
+      {props.user === null ? null : props.user.role === "admin" ? (
+        <>
+          <AdminModal />
+
+          <TambahProductModal />
+        </>
+      ) : null}
     </header>
   );
 };
-
-export default Navbar;
+const mapStateToProps = (state) => ({
+  user: state.mainStore.dataUser,
+});
+export default connect(mapStateToProps)(Navbar);

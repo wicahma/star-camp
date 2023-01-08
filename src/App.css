@@ -9,10 +9,72 @@ body {
   background: rgba(0, 0, 0, 0.6) url("./assets/img/walpaper.png");
   background-size: cover;
   background-repeat: no-repeat;
-
   background-position: center;
   background-blend-mode: overlay;
   border-radius: 0;
+}
+
+.image-product {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.modal {
+  backdrop-filter: blur(3px);
+  z-index: 1060;
+  width: 100vw;
+  height: 100vh;
+}
+
+.order2 {
+  background-color: #fff;
+  box-shadow: 5px 5px 10px 2px #024d7053;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+.list-pesanan {
+  background: #fff;
+  width: 100%;
+  margin: auto;
+  border: 2px solid rgb(83, 83, 83);
+  border-radius: 15px;
+  padding: 20px 5px;
+  margin-bottom: 15px;
+  transition-duration: 200ms;
+}
+
+.list-pesanan:hover {
+  box-shadow: 5px 5px 10px 2px #024d7053;
+  background: #03a9f4;
+  border: 2px solid #03a9f4;
+  color: #fff;
+  transform: scale(1.04);
+}
+
+.btn-blue,
+.btn-blue:hover {
+  background: #03a9f4;
+  font-weight: 400;
+  color: #fff;
+}
+
+.pesanan-list {
+  margin-top: 3rem;
+}
+
+.modal-content {
+  border-radius: 20px;
+}
+
+
+.bg-about {
+  background: rgba(0, 0, 0, 0.6) url("./assets/img/walpaper.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-blend-mode: overlay;
+  border-radius: 0;
+  height: 100vh;
 }
 
 .modal-batal {
@@ -73,10 +135,13 @@ body {
 .alert {
   width: 400px;
   position: fixed;
-  top: 1rem;
+  top: 4.5rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
+  z-index: 3000;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px 2px #024d7053;
 }
 
 .the-table {
@@ -87,6 +152,7 @@ body {
 .hapus-keranjang {
   background-color: rgb(230, 41, 41);
   padding: 0.4rem 1rem;
+  border: none;
   margin: 0 0 0 0.5rem;
   border-radius: 10px;
 }
@@ -132,6 +198,13 @@ body {
 }
 
 .kartu {
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.card-about {
+  background: white;
   border-radius: 10px;
 }
 
@@ -186,11 +259,41 @@ body {
   border-radius: 10px;
 }
 
-.order2 {
-  margin-top: 100px;
-  width: 100%;
+.list-keranjang {
+  margin-top: 1rem;
+}
+
+.btn-detail-keranjang {
   background: #03a9f4;
+  color: #fff;
+  font-weight: medium;
+  box-shadow: 5px 5px 10px 2px #024d7053;
+}
+
+.btn-detail-keranjang:hover {
+  background: #0585c0;
+  color: #fff;
+}
+
+.card-product {
+  color: rgb(0, 0, 0);
+  padding: 1rem;
   border-radius: 10px;
+  box-shadow: 5px 5px 10px 2px #024d7053;
+}
+
+.keranjang-input {
+  width: 60px;
+  border-radius: 8px;
+  border: none;
+  padding: 5px 10px;
+}
+
+.detail-keranjang {
+  background: #03a9f4;
+  font-weight: 100;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px 2px #024d7053;
 }
 
 .pembatalan {
@@ -225,5 +328,12 @@ body {
 @media screen and (max-width: 800px) {
   .modal-batal {
     width: 95vw;
+  }
+  .alert {
+    width: 95vw;
+  }
+  .keranjang-buttons {
+    width: 100%;
+    justify-content: end;
   }
 }

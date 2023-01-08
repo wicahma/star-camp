@@ -12,7 +12,7 @@ const Pesanan = (props) => {
 
   const getAllData = () => {
     axios
-      .get(`http://localhost:5000/api/order/${props.user.id_user}`)
+      .get(`${process.env.REACT_APP_API_POINT}order/${props.user.id_user}`)
       .then((res) => {
         setOrder(res.data.data);
       });
@@ -21,10 +21,9 @@ const Pesanan = (props) => {
   const getAdminData = (path) => {
     let path_child;
     if (path.includes("semua")) path_child = "s";
-    if (path.includes("bayar")) path_child = "/pembayaran";
-    if (path.includes("batal")) path_child = "/pembatalan";
+    if (path.includes("riwayat")) path_child = "/riwayat";
     axios
-      .get(`http://localhost:5000/api/order${path_child}`)
+      .get(`${process.env.REACT_APP_API_POINT}order${path_child}`)
       .then((res) => {
         setOrder(res.data.data);
         console.log(res.data.data);
@@ -42,7 +41,7 @@ const Pesanan = (props) => {
 
   const handleDeletePesanan = (id) => {
     axios
-      .delete(`http://localhost:5000/api/order/${id}`)
+      .delete(`${process.env.REACT_APP_API_POINT}order/${id}`)
       .then((res) => {
         console.log(res);
         checker ? setChecker(false) : setChecker(true);
@@ -61,7 +60,7 @@ const Pesanan = (props) => {
   } else {
     return (
       <>
-        <div className="container">
+        <div className="container pesanan-list">
           {order.map((data) => {
             return (
               <PesananDetail
@@ -75,7 +74,6 @@ const Pesanan = (props) => {
             );
           })}
         </div>
-        
       </>
     );
   }

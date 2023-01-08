@@ -5,25 +5,25 @@ import { Link } from "react-router-dom";
 const PesananDetail = (props) => {
   return (
     <div className="container-fluid">
-      <div className="card order2">
+      <div className="order2">
         <div className="card-body d-flex justify-content-between">
-          <h6 className="text-light">
+          <h6 className="text-dark">
             <b>{props.nama}</b>
           </h6>
-          <h6 className="text-light font-weight-light">
+          <h6 className="text-dark font-weight-light">
             <b>Rp. {props.hargaTotal}</b>
           </h6>
-          <h6 className="text-light font-weight-light">
+          <h6 className="text-dark font-weight-light">
             <b>{props.tanggal}</b>
           </h6>
-          <h6 className="text-light font-weight-light">
+          <h6 className="text-dark font-weight-light">
             <b>{props.id}</b>
           </h6>
-          <h6 className="text-light font-weight-light">
+          <h6 className="text-dark font-weight-light">
             <b>{props.status}</b>
           </h6>
         </div>
-        <div className="mx-3 mb-3">
+        <div className="mx-3 pb-3">
           <div className="d-flex justify-content-between">
             <Link
               to={`/pesanan-detail/${props.id}`}
@@ -32,9 +32,8 @@ const PesananDetail = (props) => {
                 tanggal: props.tanggal,
                 status: props.status,
               }}
-              className="btn btn-light"
+              className="btn btn-blue"
             >
-              {" "}
               Detail
             </Link>
             {props.user !== null
@@ -59,7 +58,7 @@ const PesananDetail = (props) => {
           aria-labelledby="modal-hapus-Label"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="modal-hapus-Label">
@@ -74,7 +73,10 @@ const PesananDetail = (props) => {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">Data akan hilang selamanya, apakah anda yakin untuk menghapus Pesanan?</div>
+              <div class="modal-body">
+                Data akan hilang selamanya, apakah anda yakin untuk menghapus
+                Pesanan?
+              </div>
               <div class="modal-footer">
                 <button
                   type="button"
@@ -83,7 +85,12 @@ const PesananDetail = (props) => {
                 >
                   Tidak
                 </button>
-                <button type="button" data-dismiss="modal" onClick={() => props.handleDelete(props.id)} class="btn btn-danger">
+                <button
+                  type="button"
+                  data-dismiss="modal"
+                  onClick={() => props.handleDelete(props.id)}
+                  class="btn btn-danger"
+                >
                   Ya, hapus pesanan
                 </button>
               </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const Alert = (props) => {
   return (
-    <div className={`alert ${props.type}`} role="alert">
+    <div className={`alert alert-dismissible fade show ${props.type}`} role="alert">
       {props.alert}
     </div>
   );

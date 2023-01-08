@@ -1,7 +1,7 @@
 export const initialState = {
   dataUser: null,
   validate: false,
-  keranjang: [],
+  keranjang: JSON.parse(localStorage.getItem("produk")) || [],
   product: [],
   payment: null,
   error: false,

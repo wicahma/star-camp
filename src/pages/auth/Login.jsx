@@ -34,12 +34,11 @@ class Login extends Component {
     // console.log(this.state.data);
     axios
       .get(
-        `http://localhost:5000/api/user/${this.state.data.email}&${this.state.data.password}`
+        `${process.env.REACT_APP_API_POINT}user/${this.state.data.email}&${this.state.data.password}`
       )
       .then((res) => {
-        localStorage.setItem("dataUser", JSON.stringify(res.data.data[0]));
-        this.props.dispatch({ type: "SET_USER", payload: res.data.data[0] });
-        // console.log(res.data.data[0]);
+        localStorage.setItem("dataUser", JSON.stringify(res.data[0]));
+        this.props.dispatch({ type: "SET_USER", payload: res.data[0] });
         this.setState({
           validate: true,
         });
