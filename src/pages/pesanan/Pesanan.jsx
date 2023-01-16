@@ -119,6 +119,8 @@ const Pesanan = (props) => {
                 id={data.id_order}
                 nama={data.full_name}
                 status={data.order_status}
+                address={data.address}
+                telepon={data.phone}
                 tanggal={data.time.slice(0, 10)}
                 handleDelete={(id) => handleDeletePesanan(id)}
                 handleDone={(id) => handleDonePesanan(id)}

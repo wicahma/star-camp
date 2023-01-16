@@ -27,6 +27,9 @@ const PesananDetail = (props) => {
                   id_pesanan: props.id,
                   tanggal: props.tanggal,
                   status: props.status,
+                  nama:props.nama,
+                  address:props.address,
+                  phone:props.telepon
                 }}
                 className="btn btn-blue"
               >

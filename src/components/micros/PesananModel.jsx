@@ -23,16 +23,19 @@ const PesananModel = (props) => {
     id_pesanan: location.state.id_pesanan,
     tanggal: location.state.tanggal,
     status: location.state.status,
+    nama: location.state.nama,
+    address: location.state.address,
+    phone: location.state.phone,
   };
 
-  const getDataUser = (user) => {
-    axios
-      .get(`${process.env.REACT_APP_API_POINT}order/id/${data.id_pesanan}`)
-      .then((res) => {
-        setUserOrder(res.data.data[0]);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getDataUser = (user) => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_API_POINT}order/id/${data.id_pesanan}`)
+  //     .then((res) => {
+  //       setUserOrder(res.data.data[0]);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const getPesanan = () => {
     axios
@@ -97,7 +100,7 @@ const PesananModel = (props) => {
     getProduct();
     getPesanan();
     checkpembayaran();
-    getDataUser();
+    // getDataUser();
   }, []);
 
   useEffect(() => {
@@ -120,16 +123,20 @@ const PesananModel = (props) => {
         <div className="card-body">
           <h6 className="text-dark float-right">Tanggal Sewa</h6>
           <h6 className="text-dark p-2">
-            {userOrder === undefined ? "Loading" : userOrder.full_name}
+            {/* {userOrder === undefined ? "Loading" : userOrder.full_name} */}
+            {data.nama}
           </h6>
           <h6 className="text-dark float-right">
-            {userOrder === undefined ? "Loading" : userOrder.time.slice(0, 10)}
+            {/* {userOrder === undefined ? "Loading" : userOrder.time.slice(0, 10)} */}
+            {data.tanggal}
           </h6>
           <h6 className="text-dark p-2">
-            {userOrder === undefined ? "Loading" : userOrder.address}
+            {/* {userOrder === undefined ? "Loading" : userOrder.address} */}
+            {data.address}
           </h6>
           <h6 className="text-dark p-2">
-            {userOrder === undefined ? "Loading" : userOrder.phone}
+            {/* {userOrder === undefined ? "Loading" : userOrder.phone} */}
+            {data.phone}
           </h6>
 
           <div ref={table} className="px-2">
