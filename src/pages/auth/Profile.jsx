@@ -56,18 +56,12 @@ class Profile extends Component {
   render() {
     return (
       <section id="login">
-        <div className="container-sm">
-          <div className="card p-5 pesanan">
+        <div className="container-sm mt-5">
+          <div className="p-5 order2">
             <div className="card-body">
               <center>
-                {/* <img
-                  src="./assets/img/sywl.png"
-                  alt=""
-                  className=""
-                  width="150px"
-                /> */}
-                <i className="bi bi-person-circle text-light user-profile"></i>
-                <p className="text-light p-2">
+                <i className="bi bi-person-circle text-dark user-profile"></i>
+                <p className="text-dark p-2">
                   <b>Edit Profil</b>
                 </p>
               </center>
@@ -76,9 +70,9 @@ class Profile extends Component {
                 <div className="col-md-4 form-group">
                   <label
                     htmlFor="nama"
-                    className=" text-light col-form-label text-left"
+                    className=" text-dark col-form-label text-left"
                   >
-                    <b className="text-light">Full Name</b>
+                    <b className="text-dark">Full Name</b>
                   </label>
                   <div className="">
                     <input
@@ -95,9 +89,9 @@ class Profile extends Component {
                 <div className="col-md-4 form-group">
                   <label
                     htmlFor="nama"
-                    className=" text-light col-form-label text-left"
+                    className=" text-dark col-form-label text-left"
                   >
-                    <b className="text-light">Username</b>
+                    <b className="text-dark">Username</b>
                   </label>
                   <div className="">
                     <input
@@ -114,7 +108,7 @@ class Profile extends Component {
 
                 <div className="col-md-4 form-group">
                   <label htmlFor="email" className=" col-form-label text-left">
-                    <b className="text-light">Email</b>
+                    <b className="text-dark">Email</b>
                   </label>
 
                   <div className="">
@@ -130,7 +124,7 @@ class Profile extends Component {
                 </div>
                 <div className="col-md-4 form-group">
                   <label htmlFor="No Hp" className=" col-form-label text-left">
-                    <b className="text-light">No Hp</b>
+                    <b className="text-dark">No Hp</b>
                   </label>
                   <div className="">
                     <input
@@ -148,9 +142,9 @@ class Profile extends Component {
                 <div className="col-md-8 form-group">
                   <label
                     htmlFor="nama"
-                    className=" text-light col-form-label text-left"
+                    className=" text-dark col-form-label text-left"
                   >
-                    <b className="text-light">Alamat</b>
+                    <b className="text-dark">Alamat</b>
                   </label>
                   <div className="">
                     <textarea

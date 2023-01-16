@@ -16,12 +16,22 @@ const PesananModel = (props) => {
   const [jumlah, setJumlah] = useState(0);
   const [jumlahPesanan, setJumlahPesanan] = useState(0);
   const [orders, setOrders] = useState([]);
+  const [userOrder, setUserOrder] = useState();
   const [product, setProduct] = useState([]);
   const [pembayaran, setPembayaran] = useState(true);
   const data = {
     id_pesanan: location.state.id_pesanan,
     tanggal: location.state.tanggal,
     status: location.state.status,
+  };
+
+  const getDataUser = (user) => {
+    axios
+      .get(`${process.env.REACT_APP_API_POINT}order/id/${data.id_pesanan}`)
+      .then((res) => {
+        setUserOrder(res.data.data[0]);
+      })
+      .catch((err) => console.log(err));
   };
 
   const getPesanan = () => {
@@ -87,6 +97,7 @@ const PesananModel = (props) => {
     getProduct();
     getPesanan();
     checkpembayaran();
+    getDataUser();
   }, []);
 
   useEffect(() => {
@@ -108,10 +119,18 @@ const PesananModel = (props) => {
         </div>
         <div className="card-body">
           <h6 className="text-dark float-right">Tanggal Sewa</h6>
-          <h6 className="text-dark p-2">{props.user.full_name}</h6>
-          <h6 className="text-dark float-right">{data.tanggal}</h6>
-          <h6 className="text-dark p-2">{props.user.address}</h6>
-          <h6 className="text-dark p-2">{props.user.phone}</h6>
+          <h6 className="text-dark p-2">
+            {userOrder === undefined ? "Loading" : userOrder.full_name}
+          </h6>
+          <h6 className="text-dark float-right">
+            {userOrder === undefined ? "Loading" : userOrder.time.slice(0, 10)}
+          </h6>
+          <h6 className="text-dark p-2">
+            {userOrder === undefined ? "Loading" : userOrder.address}
+          </h6>
+          <h6 className="text-dark p-2">
+            {userOrder === undefined ? "Loading" : userOrder.phone}
+          </h6>
 
           <div ref={table} className="px-2">
             {orders.length !== 0 && product.length !== 0 ? (

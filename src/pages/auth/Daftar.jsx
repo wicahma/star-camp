@@ -4,6 +4,8 @@ import "./login.css";
 import logo from "../../assets/img/logo.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { BarLoader } from "react-spinners";
+import Alert from "../../components/micros/Alert";
 
 class Daftar extends Component {
   constructor(props) {
@@ -16,7 +18,12 @@ class Daftar extends Component {
         password: null,
       },
       pass: { password: null, password2: null },
+      success: "",
       error: "",
+      errorPass: "",
+      loading: false,
+      errorState: false,
+      successState: false,
     };
   }
 
@@ -31,6 +38,7 @@ class Daftar extends Component {
   handleOnChangePass = (e) => {
     this.setState({
       error: "",
+      errorPass: "",
     });
     const value = e.target.value;
     const id = e.target.id;
@@ -40,13 +48,45 @@ class Daftar extends Component {
     this.setState({ pass: pass }, () =>
       this.state.pass.password !== this.state.pass.password2
         ? this.setState({
-            error: "password tidak sama",
+            errorPass: "password tidak sama",
           })
-        : null
+        : this.setState({
+            daftar: {
+              ...this.state.daftar,
+              password: this.state.pass.password,
+            },
+          })
     );
   };
 
+  handleCheckData = () => {
+    const checker = () => {
+      for (const [key, value] of Object.entries(this.state.daftar)) {
+        console.log(key, value);
+        if (value === "" || value === null) {
+          return false;
+        }
+      }
+      return this.state.error === "password tidak sama" ? false : true;
+    };
+    checker()
+      ? this.handleRegister(this.state.daftar, this.state.pass)
+      : this.setState({
+          error: "Isi data yang masih kosong / password anda berbeda!",
+          errorState: true,
+        });
+    setTimeout(() => {
+      this.setState({
+        errorState: false,
+        error: "",
+      });
+    }, 1500);
+  };
+
   handleRegister = (data, pass) => {
+    this.setState({
+      loading: true,
+    });
     axios
       .post(`${process.env.REACT_APP_API_POINT}user`, {
         username: data.username,
@@ -56,14 +96,28 @@ class Daftar extends Component {
       })
       .then((resp) => {
         this.setState({
-          error: "User berhasil dibuat, silahkan kembali ke Login",
+          success: "User berhasil dibuat, silahkan kembali ke Login",
+          loading: false,
+          successState: true,
         });
+        setTimeout(() => {
+          this.setState({
+            successState: false,
+          });
+        }, 3500);
       })
       .catch((err) => {
         console.log(err);
         this.setState({
           error: "user gagal dibuat, Ada kesalahan",
+          loading: false,
+          errorState: true,
         });
+        setTimeout(() => {
+          this.setState({
+            errorState: false,
+          });
+        }, 1500);
       });
   };
 
@@ -78,7 +132,26 @@ class Daftar extends Component {
               alt="star camp logo"
             />
           </center>
-
+          {this.state.loading ? (
+            <div className="loading">
+              <div className="loader">
+                <BarLoader
+                  size={150}
+                  color={"#123abc"}
+                  loading={true}
+                  speedMultiplier={1.5}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </div>
+            </div>
+          ) : null}
+          {this.state.errorState && (
+            <Alert type="alert-danger" alert={this.state.error} />
+          )}
+          {this.state.successState && (
+            <Alert type="alert-success" alert={this.state.success} />
+          )}
           <form className="pb-4">
             <div className="form-group text-light">
               <label htmlFor="exampleInputUser1">
@@ -157,13 +230,11 @@ class Daftar extends Component {
               </div>
             </div>
             <div>
-              <p>{this.state.error}</p>
+              <p>{this.state.errorPass}</p>
             </div>
             <div
               className="nav-link btn-success text-center py-2 rounded"
-              onClick={() =>
-                this.handleRegister(this.state.daftar, this.state.pass)
-              }
+              onClick={() => this.handleCheckData()}
             >
               <h6>
                 <b>Register</b>

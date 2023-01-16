@@ -9,15 +9,11 @@ const PembatalanModal = (props) => {
   let [redirect, setRedirect] = useState(null);
 
   const handleBatal = () => {
-    const orderStat =
-      props.user.role === "admin"
-        ? "Dibatalkan"
-        : "Menunggu verifikasi pembatalan";
     console.log(props.user.role);
     clickMe.current.click();
     axios
       .put(`${process.env.REACT_APP_API_POINT}order/${props.id_pesanan}`, {
-        order_status: orderStat,
+        order_status: "Dibatalkan",
       })
       .then((res) => {
         console.log(res);

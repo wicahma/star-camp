@@ -66,7 +66,7 @@ const Navlist = (props) => {
         </ul>
         <div className="dropdown show">
           <a
-            className="btn dropdown py-0 m-0"
+            className="btn btn-light dropdown"
             href="#"
             role="button"
             id="dropdownMenuLink"
@@ -74,8 +74,7 @@ const Navlist = (props) => {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {/* <img src="./assets/img/profil.png" alt="" width="40px" /> */}
-            <i className="bi bi-person-circle text-light user"></i>
+            {props.user !== null && props.user.full_name}
           </a>
 
           <div

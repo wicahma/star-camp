@@ -4,6 +4,7 @@ import logo from "../../assets/img/logo.png";
 import { connect } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
+import { BarLoader } from "react-spinners";
 
 class Login extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Login extends Component {
       },
       validate: false,
       error: "",
+      loading: false,
     };
   }
 
@@ -32,6 +34,7 @@ class Login extends Component {
 
   handleLogin = () => {
     // console.log(this.state.data);
+    this.setState({ loading: true });
     axios
       .get(
         `${process.env.REACT_APP_API_POINT}user/${this.state.data.email}&${this.state.data.password}`
@@ -41,12 +44,14 @@ class Login extends Component {
         this.props.dispatch({ type: "SET_USER", payload: res.data[0] });
         this.setState({
           validate: true,
+          loading: false,
         });
       })
       .catch((err) => {
         console.log(err);
         this.setState({
           error: "Data yang dimasukkan salah!",
+          loading: false,
         });
       });
   };
@@ -56,6 +61,20 @@ class Login extends Component {
       <section id="login" className="login">
         {this.state.validate === true ? (
           <Navigate to={"/home"} replace />
+        ) : null}
+        {this.state.loading ? (
+          <div className="loading">
+            <div className="loader">
+              <BarLoader
+                size={150}
+                color={"#123abc"}
+                loading={true}
+                speedMultiplier={1.5}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </div>
+          </div>
         ) : null}
         <div className="container log">
           <center>
