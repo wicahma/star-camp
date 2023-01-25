@@ -34,7 +34,7 @@ class Home extends Component {
           <div className="row d-flex justify-content-center align-items-center w-100 h-100">
             <div className="col-sm-12 py-5">
               <h2 className="display-4 Judul text-center pt-5 text-light">
-                Star Adventure
+                Star Camp
               </h2>
               <p className="lead text-center text-light">
                 Rental / Sewa Alat Camping Murah Jogja

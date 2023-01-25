@@ -51,16 +51,17 @@ const CardModal = ({
       ) : null}
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          {/* <div className="modal-header">
-            <button
+          <div className="modal-header">
+            {/* <button
+              // ref={productClose}
               type="button"
               className="close"
               data-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
-            </button>
-          </div> */}
+            </button> */}
+          </div>
           <div className="modal-body">
             <center>
               <img
@@ -84,6 +85,8 @@ const CardModal = ({
                 <button
                   onClick={() => handleAddProduct(product)}
                   className="btn btn-primary"
+                  data-dismiss="modal"
+                  aria-label="Close"
                 >
                   Tambahkan Ke Keranjang
                 </button>
